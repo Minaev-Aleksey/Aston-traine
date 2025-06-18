@@ -31,7 +31,6 @@ public class StartService {
     }
 
     public static void printMenu() {
-        //Меню выбора
         System.out.println("Что нужно сделать с пользователем:\n" +
                 "1. Добавить нового пользователя в БД\n" +
                 "2. Обновить данные пользователя в БД\n" +
@@ -43,7 +42,6 @@ public class StartService {
     }
 
     private static void createUser() {
-        //Создание пользователя
         System.out.println("\nДобавление нового пользователя");
         System.out.print("Введите имя: ");
         String name = sc.nextLine();
