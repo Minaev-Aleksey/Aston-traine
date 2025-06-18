@@ -31,6 +31,7 @@ public class StartService {
     }
 
     public static void printMenu() {
+        //Меню выбора
         System.out.println("Что нужно сделать с пользователем:\n" +
                 "1. Добавить нового пользователя в БД\n" +
                 "2. Обновить данные пользователя в БД\n" +
