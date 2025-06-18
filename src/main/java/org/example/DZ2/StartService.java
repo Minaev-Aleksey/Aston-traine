@@ -43,6 +43,7 @@ public class StartService {
     }
 
     private static void createUser() {
+        //Создание пользователя
         System.out.println("\nДобавление нового пользователя");
         System.out.print("Введите имя: ");
         String name = sc.nextLine();
