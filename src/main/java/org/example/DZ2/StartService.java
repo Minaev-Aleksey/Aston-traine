@@ -45,12 +45,37 @@ public class StartService {
     private static void createUser() {
         System.out.println("\nДобавление нового пользователя");
         System.out.print("Введите имя: ");
-        String name = SC.nextLine();
 
-        System.out.print("Введите Email: ");
-        String email = SC.nextLine();
+        //Делаем проверку на ввод строки,а не числа
+        String name;
+        while (true) {
+            name = SC.nextLine();
+            if (name.matches("\\d+")) {
+                System.out.println("Ошибка: введено число!\nПовторите вводе имени:");
+            } else {
+                break;
+            }
+        }
 
+        //Делаем проверку на ввод email c нахождением @ и .
+        System.out.print("Введите email: ");
+        String email;
+        while (true) {
+            email = SC.nextLine().trim();
+            if (email.contains("@") && email.indexOf("@") < email.lastIndexOf(".") && email.length() > 5) {
+                break;
+            } else {
+                System.out.println("Некорректный email! Должен быть символ @ и домен (например, user@example.com)");
+                System.out.print("Введите email: ");
+            }
+        }
+
+        //Делаем проверку на ввод числа,а не строки
         System.out.print("Введите возраст: ");
+        while (!SC.hasNextInt()) {
+            System.out.println("Ошибка: введено не число.\nВведите возраст снова!");
+            SC.next();
+        }
         int age = SC.nextInt();
 
         User user = new User(name, email, age, LocalDate.now());
