@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class StartService {
-    private static final Scanner sc = new Scanner(System.in);
-    private static final UserDAO userDAO = new UserDAOImpl();
-    private static final Logger logger = LogManager.getLogger(StartService.class);
+    private static final Scanner SC = new Scanner(System.in);
+    private static final UserDAO USER_DAO = new UserDAOImpl();
+    private static final Logger LOGGER = LogManager.getLogger(StartService.class);
 
     public static void main(String[] args) {
         boolean running = true;
         while (running) {
             printMenu();
-            switch (sc.nextLine()) {
+            switch (SC.nextLine()) {
                 case "1" -> createUser();
                 case "2" -> updateUser();
                 case "3" -> deleteUser();
@@ -45,25 +45,25 @@ public class StartService {
     private static void createUser() {
         System.out.println("\nДобавление нового пользователя");
         System.out.print("Введите имя: ");
-        String name = sc.nextLine();
+        String name = SC.nextLine();
 
         System.out.print("Введите Email: ");
-        String email = sc.nextLine();
+        String email = SC.nextLine();
 
         System.out.print("Введите возраст: ");
-        int age = sc.nextInt();
+        int age = SC.nextInt();
 
         User user = new User(name, email, age, LocalDate.now());
-        User savedUser = userDAO.save(user);
+        User savedUser = USER_DAO.save(user);
         System.out.println("Пользователь создан успешно: " + savedUser);
-        logger.info("Создан новый пользователь с id: {}", savedUser.getId());
+        LOGGER.info("Создан новый пользователь с id: {}", savedUser.getId());
     }
 
     private static void updateUser() {
         System.out.print("\nEnter user ID to update: ");
-        Long id = sc.nextLong();
+        Long id = SC.nextLong();
 
-        var userOptional = userDAO.findById(id);
+        var userOptional = USER_DAO.findById(id);
         if (userOptional.isEmpty()) {
             System.out.println("С указанным id: " + id + " пользователь на найден");
             return;
@@ -73,33 +73,33 @@ public class StartService {
         System.out.println("Данные текущего пользователя: " + user);
 
         System.out.print("Введите новое имя, если оставить поле пустым сохранится прошлое имя): ");
-        String name = sc.nextLine();
+        String name = SC.nextLine();
         if (!name.isBlank()) {
             user.setName(name);
         }
 
         System.out.print("Введите новый email, если оставить поле пустым сохранится прошлый email: ");
-        String email = sc.nextLine();
+        String email = SC.nextLine();
         if (!email.isBlank()) {
             user.setEmail(email);
         }
 
         System.out.print("Введите новый возраст, если поле оставить пустым сохранится прошлый возраст: ");
-        int ageInput = sc.nextInt();
+        int ageInput = SC.nextInt();
         if (ageInput != 0) {
             user.setAge(ageInput);
         }
 
-        User updatedUser = userDAO.update(user);
+        User updatedUser = USER_DAO.update(user);
         System.out.println("Обновление данных пользователей прошло успешно: " + updatedUser);
-        logger.info("Обновление данных пользователя с ID: {}", updatedUser.getId());
+        LOGGER.info("Обновление данных пользователя с ID: {}", updatedUser.getId());
     }
 
     private static void deleteUser() {
         System.out.print("\nВведите id пользователя для удаления: ");
-        Long id = sc.nextLong();
+        Long id = SC.nextLong();
 
-        var userOptional = userDAO.findById(id);
+        var userOptional = USER_DAO.findById(id);
         if (userOptional.isEmpty()) {
             System.out.println("С указанным id: " + id + " пользователь на найден");
             return;
@@ -107,12 +107,12 @@ public class StartService {
 
         System.out.println("Вы уверены что хотите удалить данного пользователя? (Да/Нет)");
         System.out.println(userOptional.get());
-        String confirmation = sc.nextLine();
+        String confirmation = SC.nextLine();
 
         if ("Да".equalsIgnoreCase(confirmation)) {
-            userDAO.delete(id);
+            USER_DAO.delete(id);
             System.out.println("Удаление пользователя прошло успешно.");
-            logger.info("Удаление пользователя с ID: {}", id);
+            LOGGER.info("Удаление пользователя с ID: {}", id);
         } else {
             System.out.println("Удаление пользователя отменено.");
         }
@@ -120,9 +120,9 @@ public class StartService {
 
     private static void userFindById() {
         System.out.print("\nВведите Id пользователя: ");
-        Long id = sc.nextLong();
+        Long id = SC.nextLong();
 
-        var user = userDAO.findById(id);
+        var user = USER_DAO.findById(id);
         if (user.isPresent()) {
             System.out.println("Пользователь найден: " + user.get());
         } else {
@@ -131,7 +131,7 @@ public class StartService {
     }
 
     private static void userFindByAll() {
-        List<User> users = userDAO.findAll();
+        List<User> users = USER_DAO.findAll();
         if (users.isEmpty()) {
             System.out.println("Список пользователей пуст.");
         } else {
