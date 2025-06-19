@@ -26,11 +26,12 @@ public class StartService {
                 case "4" -> userFindById();
                 case "5" -> userFindByAll();
                 case "6" -> running = false;
+                default -> System.out.println("Ввели неверное число");
             }
         }
     }
 
-    public static void printMenu() {
+    private static void printMenu() {
         System.out.println("Что нужно сделать с пользователем:\n" +
                 "1. Добавить нового пользователя в БД\n" +
                 "2. Обновить данные пользователя в БД\n" +
@@ -50,7 +51,7 @@ public class StartService {
         String email = sc.nextLine();
 
         System.out.print("Введите возраст: ");
-        int age = Integer.parseInt(sc.nextLine());
+        int age = sc.nextInt();
 
         User user = new User(name, email, age, LocalDate.now());
         User savedUser = userDAO.save(user);
@@ -60,7 +61,7 @@ public class StartService {
 
     private static void updateUser() {
         System.out.print("\nEnter user ID to update: ");
-        Long id = Long.parseLong(sc.nextLine());
+        Long id = sc.nextLong();
 
         var userOptional = userDAO.findById(id);
         if (userOptional.isEmpty()) {
@@ -84,9 +85,9 @@ public class StartService {
         }
 
         System.out.print("Введите новый возраст, если поле оставить пустым сохранится прошлый возраст: ");
-        String ageInput = sc.nextLine();
-        if (!ageInput.isBlank()) {
-            user.setAge(Integer.parseInt(ageInput));
+        int ageInput = sc.nextInt();
+        if (ageInput != 0) {
+            user.setAge(ageInput);
         }
 
         User updatedUser = userDAO.update(user);
@@ -96,7 +97,7 @@ public class StartService {
 
     private static void deleteUser() {
         System.out.print("\nВведите id пользователя для удаления: ");
-        Long id = Long.parseLong(sc.nextLine());
+        Long id = sc.nextLong();
 
         var userOptional = userDAO.findById(id);
         if (userOptional.isEmpty()) {
@@ -119,7 +120,7 @@ public class StartService {
 
     private static void userFindById() {
         System.out.print("\nВведите Id пользователя: ");
-        Long id = Long.parseLong(sc.nextLine());
+        Long id = sc.nextLong();
 
         var user = userDAO.findById(id);
         if (user.isPresent()) {
