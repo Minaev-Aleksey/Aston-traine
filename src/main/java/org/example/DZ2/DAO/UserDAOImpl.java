@@ -1,6 +1,6 @@
 package org.example.DZ2.DAO;
 
-import org.example.DZ2.ConnectionDB.ConnectionDB;
+import org.example.DZ2.ConnectionDB.DbConnectionUtil;
 import org.example.DZ2.Entity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDAOImpl implements UserDAO {
-    public static Transaction transaction = null;
-    public static final ConnectionDB connectionDB = new ConnectionDB();
+    private static Transaction TRANSACTION = null;
+    private static final DbConnectionUtil DB_CONNECTION_UTIL = new DbConnectionUtil();
 
     @Override
     public Optional<User> findById(Long id) {
-        try (Session session = connectionDB.connectionDB().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = DB_CONNECTION_UTIL.getSessionFactory().openSession()) {
+            TRANSACTION = session.beginTransaction();
             User user = session.find(User.class, id);
-            transaction.commit();
+            TRANSACTION.commit();
             return Optional.ofNullable(user);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (TRANSACTION != null) {
+                TRANSACTION.rollback();
             }
             e.printStackTrace();
             return Optional.empty();
@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> findAll() {
-        try (Session session = connectionDB.connectionDB().openSession()) {
+        try (Session session = DB_CONNECTION_UTIL.getSessionFactory().openSession()) {
             return session.createQuery("from User", User.class).list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,14 +40,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User save(User user) {
-        try (Session session = connectionDB.connectionDB().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = DB_CONNECTION_UTIL.getSessionFactory().openSession()) {
+            TRANSACTION = session.beginTransaction();
             session.persist(user);
-            transaction.commit();
+            TRANSACTION.commit();
             return user;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (TRANSACTION != null) {
+                TRANSACTION.rollback();
             }
             e.printStackTrace();
             throw new RuntimeException("При сохранении пользователя произошла ошибка: " + e.getMessage(), e);
@@ -56,14 +56,14 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User update(User user) {
-        try (Session session = connectionDB.connectionDB().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = DB_CONNECTION_UTIL.getSessionFactory().openSession()) {
+            TRANSACTION = session.beginTransaction();
             User updatedUser = session.merge(user);
-            transaction.commit();
+            TRANSACTION.commit();
             return updatedUser;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (TRANSACTION != null) {
+                TRANSACTION.rollback();
             }
             e.printStackTrace();
             throw new RuntimeException("При обновления пользователя произошла ошибка: " + e.getMessage(), e);
@@ -72,16 +72,16 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void delete(Long id) {
-        try (Session session = connectionDB.connectionDB().openSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = DB_CONNECTION_UTIL.getSessionFactory().openSession()) {
+            TRANSACTION = session.beginTransaction();
             User user = session.find(User.class, id);
             if (user != null) {
                 session.remove(user);
             }
-            transaction.commit();
+            TRANSACTION.commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+            if (TRANSACTION != null) {
+                TRANSACTION.rollback();
             }
             e.printStackTrace();
             throw new RuntimeException("При удалении пользователя произошла ошибка: " + e.getMessage(), e);
