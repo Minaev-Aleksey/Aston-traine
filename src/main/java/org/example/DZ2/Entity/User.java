@@ -28,6 +28,14 @@ public class User {
     public User() {
     }
 
+    public User(Long id, String name, String email, int age, LocalDate localDate) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.localDate = localDate;
+    }
+
     public User(String name, String email, int age, LocalDate localDate) {
         this.name = name;
         this.email = email;
