@@ -80,14 +80,14 @@ public class UserDAOImplTestContainersIT {
 
     @Test
     @Order(1)
-    void findAll_WhenNoUsers_ReturnsEmptyList() {
+    void findAllNoUsersTest() {
         List<User> result = userDAO.findAll();
         assertTrue(result.isEmpty());
     }
 
     @Test
     @Order(2)
-    void findAll_ReturnsAllUsers() {
+    void findAllTest() {
 
         User user1 = new User(null, "Test_name1", "test1@email.com", 111, LocalDate.now());
         User user2 = new User(null, "Test_name2", "test2@email.com", 222, LocalDate.now());
@@ -108,7 +108,7 @@ public class UserDAOImplTestContainersIT {
 
     @Test
     @Order(3)
-    void save_ValidUser() {
+    void saveUserTest() {
         User user = new User(null, "Test_name", "test@email.com", 111, LocalDate.now());
 
         userDAO.save(user);
@@ -123,7 +123,7 @@ public class UserDAOImplTestContainersIT {
 
     @Test
     @Order(4)
-    void findById() {
+    void findByIdUserTest() {
         User user = new User(null, "Test_name", "test@email.com", 111, LocalDate.now());
 
         try (Session session = sessionFactory.openSession()) {
@@ -165,7 +165,7 @@ public class UserDAOImplTestContainersIT {
 
     @Test
     @Order(6)
-    void delete_ExistingUser_RemovesFromDB() {
+    void deleteUserTest() {
         User user = new User(null, "Test_name0", "test0@email.com", 111, LocalDate.now());
 
         try (Session session = sessionFactory.openSession()) {

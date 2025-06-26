@@ -50,7 +50,7 @@ public class JunitAndMockitoUserDaoTest {
     }
 
     @Test
-    public void findById() {
+    public void findByIdTest() {
         User testUser = new User(1L, "Test_user", "test@email.com", 111, LocalDate.now());
 
         when(sessionFactory.openSession()).thenReturn(session);
@@ -65,7 +65,7 @@ public class JunitAndMockitoUserDaoTest {
     }
 
     @Test
-    public void findByAll() {
+    public void findByAllTest() {
         User user1 = new User(1L, "Test_user1", "test@email1.com", 111, LocalDate.now());
         User user2 = new User(2L, "Test_user2", "test@email2.com", 222, LocalDate.now());
 
@@ -86,7 +86,7 @@ public class JunitAndMockitoUserDaoTest {
     }
 
     @Test
-    public void creatUser() {
+    public void creatUserTest() {
         when(hibernateSessionFactory.getSessionFactory()).thenReturn(sessionFactory);
         when(sessionFactory.openSession()).thenReturn(session);
         when(session.beginTransaction()).thenReturn(transaction);
@@ -104,7 +104,7 @@ public class JunitAndMockitoUserDaoTest {
     }
 
     @Test
-    public void updateUser() {
+    public void updateUserTest() {
         when(hibernateSessionFactory.getSessionFactory()).thenReturn(sessionFactory);
         when(sessionFactory.openSession()).thenReturn(session);
         when(session.beginTransaction()).thenReturn(transaction);
@@ -121,7 +121,7 @@ public class JunitAndMockitoUserDaoTest {
     }
 
     @Test
-    public void deleteUser() {
+    public void deleteUserTest() {
         when(hibernateSessionFactory.getSessionFactory()).thenReturn(sessionFactory);
         when(sessionFactory.openSession()).thenReturn(session);
         when(session.beginTransaction()).thenReturn(transaction);
